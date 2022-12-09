@@ -325,6 +325,16 @@ jobs:
       - install_awscli
       - install_nodejs
       - run:
+          name: Frontend smoke test.
+          command: |
+            URL=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
+            if curl -s $URL | grep "Welcome"
+            then
+              exit 0
+            else
+              exit 1
+            fi
+      - run:
           name: Get backend url and smoke test
           command: |
             BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
@@ -332,23 +342,16 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
             
+            echo "${BACKEND_PUBLIC_IP}"
             export API_URL=http://${BACKEND_PUBLIC_IP}:3030
+            echo "${API_URL}"
             if curl -s $API_URL/api/status | grep "ok"
             then
               exit 0
             else
               exit 1
             fi
-      - run:
-          name: Frontend smoke test.
-          command: |
-            URL=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
-            if curl -s $URL | grep "Welcome"
-            then
-              exit 1
-            else
-              exit 1
-            fi
+            
       - destroy-environment
       - revert-migrations
 
