@@ -269,7 +269,7 @@ jobs:
             echo "API_URL=http://${BACKEND_PUBLIC_IP}:3030" >> frontend/.env
             cat frontend/.env
 # OR            
-#            export API_URL="http://${BACKEND_PUBLIC_IP}:3030"
+#            export API_URL=http://${BACKEND_PUBLIC_IP}:3030
 #            echo "${API_URL}"
       - run:
           name: Deploy frontend objects
@@ -332,7 +332,7 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
             
-            API_URL=http://${BACKEND_PUBLIC_IP}:3030
+            export API_URL=http://${BACKEND_PUBLIC_IP}:3030
             if curl -s $API_URL/api/status | grep "ok"
             then
               exit 0
