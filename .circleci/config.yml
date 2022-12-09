@@ -345,7 +345,10 @@ jobs:
             echo "${BACKEND_PUBLIC_IP}"
             export API_URL=http://${BACKEND_PUBLIC_IP}:3030
             echo "${API_URL}"
-            curl -s ${API_URL}/api/status | grep "ok"
+            curl -s ${API_URL}/api/status
+            echo "Hi"
+            curl -s $API_URL/api/status
+            echo "Hello"
             if curl -s ${API_URL}/api/status | grep "ok"
             then
               exit 0
