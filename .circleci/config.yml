@@ -347,14 +347,14 @@ jobs:
             export API_UR=http://${BACKEND_PUBLIC_IP}
             echo "${API_URL}"
             echo "${API_UR}"
-            curl -s $API_URL/api/status
-            echo "Hi"
             curl -s $API_UR/api/status
             echo "Hii"
-            curl -s ${API_URL}/api/status
-            echo "Hello"
             curl -s ${API_UR}/api/status
             echo "Helloo"
+            curl -s $API_URL/api/status
+            echo "Hi"
+            curl -s ${API_URL}/api/status
+            echo "Hello"
             if curl -s ${API_URL}/api/status | grep "ok"
             then
               exit 0
