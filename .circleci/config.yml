@@ -12,6 +12,8 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            echo "Destroying environment: << parameters.Workflow_ID >>"
+            
             # Empty frontend bucket
             aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
 
@@ -330,7 +332,7 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
             
-            API_URL="http://${BACKEND_PUBLIC_IP}:3030"
+            export API_URL="http://${BACKEND_PUBLIC_IP}:3030"
       - run:
           name: Backend smoke test.
           command: |
