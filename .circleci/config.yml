@@ -434,3 +434,5 @@ workflows:
           requires: [deploy-backend, deploy-backend]
       - cloudfront-update:
           requires: [smoke-test]
+      - cleanup:
+          requires: [cloudfront-update]
