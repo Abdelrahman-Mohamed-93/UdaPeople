@@ -353,12 +353,12 @@ jobs:
             echo "${BACKEND_PUBLIC_IP}"
             export API_URL=http://${BACKEND_PUBLIC_IP}:3030
             echo "${API_URL}"
-            if curl -s $API_URL/api/status | grep "ok"
-            then
-              exit 0
-            else
-              exit 1
-            fi
+#            if curl -s $API_URL/api/status | grep "ok"
+#            then
+#              exit 0
+#            else
+#              exit 1
+#            fi
       - run:
           name: Frontend smoke test.
           command: |
@@ -447,7 +447,7 @@ workflows:
       - configure-node-exporter:
           requires: [configure-infrastructure]
       - run-migrations:
-          requires: [configure-infrastructure]
+          requires: [configure-node-exporter]
       - deploy-frontend:
           requires: [run-migrations]
       - deploy-backend:
