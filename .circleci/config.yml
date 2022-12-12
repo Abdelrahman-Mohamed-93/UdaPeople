@@ -233,7 +233,7 @@ jobs:
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-prometheus-node-exporter.yml
       - destroy-environment
-      
+
   run-migrations:
     docker:
       - image: cimg/python:3.10
@@ -444,6 +444,8 @@ workflows:
               only: [master]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
+      - configure-node-exporter:
+          requires: [configure-infrastructure]
       - run-migrations:
           requires: [configure-infrastructure]
       - deploy-frontend:
