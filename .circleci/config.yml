@@ -216,6 +216,24 @@ jobs:
             ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment
 
+  configure-node-exporter:
+    docker:
+      - image: cimg/python:3.10
+    steps:
+      - checkout
+      - install_awscli
+      - install_ansible
+      - add_ssh_keys:
+          fingerprints: ["83:14:b8:9b:b6:c6:5f:8b:62:76:8d:77:d6:ec:b6:3d"]
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Configure prometheus
+          command: |
+            cd .circleci/ansible
+            ansible-playbook -i inventory.txt configure-prometheus-node-exporter.yml
+      - destroy-environment
+      
   run-migrations:
     docker:
       - image: cimg/python:3.10
@@ -335,12 +353,12 @@ jobs:
             echo "${BACKEND_PUBLIC_IP}"
             export API_URL=http://${BACKEND_PUBLIC_IP}:3030
             echo "${API_URL}"
-#            if curl -s $API_URL/api/status | grep "ok"
-#            then
-#              exit 0
-#            else
-#              exit 1
-#            fi
+            if curl -s $API_URL/api/status | grep "ok"
+            then
+              exit 0
+            else
+              exit 1
+            fi
       - run:
           name: Frontend smoke test.
           command: |
