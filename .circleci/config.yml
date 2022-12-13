@@ -134,6 +134,9 @@ jobs:
       - run:
           name: Run backend test
           command: |
+            npm uninstall -g typescript
+            npm install typescript --save-dev
+            ./node_modules/.bin/tsc
             cd backend
             npm install
             npm run test
