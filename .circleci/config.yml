@@ -16,12 +16,15 @@ commands:
 
             # Empty frontend bucket
             aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
+            echo "Bucket has been deleted successfully"
 
             # Delete frontend stack
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
+            echo "Stack udapeople-frontend-<< parameters.Workflow_ID >> has been deleted successfully"
 
             # Delete backend stack
             aws cloudformation delete-stack --stack-name udapeople-backend-<< parameters.Workflow_ID >>
+            echo "Stack udapeople-backend-<< parameters.Workflow_ID >> has been deleted successfully"
 
   install_awscli:
     description: Install AWS CLI v2
@@ -161,8 +164,8 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
+#            npm audit fix --audit-level=critical --force
+#            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
 
   deploy-infrastructure:
@@ -371,7 +374,7 @@ jobs:
             URL=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
             if curl -s $URL | grep "Welcome"
             then
-              exit 0
+              exit 1
             else
               exit 1
             fi
