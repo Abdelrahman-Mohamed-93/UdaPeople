@@ -16,7 +16,7 @@ commands:
 
             # Empty frontend bucket
             aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
-            echo "Bucket has been deleted successfully"
+            echo "Bucket udapeople-<<parameters.Workflow_ID>> has been deleted successfully"
 
             # Delete frontend stack
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
@@ -134,9 +134,6 @@ jobs:
       - run:
           name: Run backend test
           command: |
-            npm uninstall -g typescript
-            npm install typescript --save-dev
-            ./node_modules/.bin/tsc
             cd backend
             npm install
             npm run test
@@ -153,8 +150,9 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
+#            npm audit fix --audit-level=critical --force
+            
   scan-backend:
     docker:
       - image: circleci/node:13.8.0
@@ -167,9 +165,10 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
+#            npm audit fix --audit-level=critical --force
+#            npm audit fix --audit-level=critical --force
+            
             
   deploy-infrastructure:
     docker:
